@@ -10,7 +10,7 @@ namespace ConsoleApp4
         {
             WebClient client = new WebClient();
 
-            string key = "XXXXXXXXXXXXXXX";
+            string key = "8df9507a-ed60-4d96-bab4-0510cebdfd7a";
 
             JObject jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/game/" + key + "/create", ""));
 
