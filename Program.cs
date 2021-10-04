@@ -29,25 +29,6 @@ namespace ConsoleApp4
             //Direction = 1 (West)
             jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/player/" + key + "/move/1", ""));
 
-            if(jobj["move"] != null && (bool)jobj["executed"] == true)
-            {
-                if((bool)jobj["move"] == true)
-                {
-                    //The avatar moved
-                }
-                else
-                {
-                    //You can't move in this direction because of the map's border
-                }
-            }
-            else
-            {
-                if((bool)jobj["executed"] == false)
-                {
-                    //You can't move now because of the cooldown
-                }
-            }
-
 
             //At the end the game is being closed
             jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/game/" + key + "/close", ""));
