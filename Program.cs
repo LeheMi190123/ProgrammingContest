@@ -12,9 +12,14 @@ namespace ConsoleApp4
             WebClient client = new WebClient();
 
             string key = "8df9507a-ed60-4d96-bab4-0510cebdfd7a";
-        
+            actions stats = new actions(key, client);
 
-            JObject jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/game/" + key + "/create", ""));
+            JObject jobj;
+
+             jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/game/" + key + "/close", ""));
+             jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/game/" + key + "/create", ""));
+
+            stats.stats();
 
             if(jobj["running"] != null && (bool)jobj["running"] == true)
             {
