@@ -25,7 +25,7 @@ namespace ConsoleApp4{
         Console.ReadKey();
         }
 
-        //First move Method
+        //First move method
        
         public void move()
         {
@@ -53,7 +53,7 @@ namespace ConsoleApp4{
         Console.ReadKey();
         }
         
-        //First Hit Method
+        //First hit method
        
         public void hit()
         {
@@ -75,5 +75,7 @@ namespace ConsoleApp4{
                 }
             }
         }
+
+        //First scan method
     }
 }
