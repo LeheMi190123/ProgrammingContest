@@ -4,8 +4,10 @@ using System.Net;
 
 namespace ConsoleApp4{
     class actions{
+        //variables
         JObject Jobj; 
         string Key;
+        int hitDir;
         WebClient Client;
         //Konstruktor für key und client
         public actions(string key, WebClient client){
@@ -27,7 +29,7 @@ namespace ConsoleApp4{
        
         public void move()
         {
-        Jobj = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/move/1", ""));
+        Jobj = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/move/", ""));
 
         if(Jobj["move"] != null && (bool)Jobj["executed"] == true)
             {
@@ -47,13 +49,15 @@ namespace ConsoleApp4{
                     //You can't move now because of the cooldown
                 }
             }
+        Console.Write(Jobj);
+        Console.ReadKey();
         }
         
         //First Hit Method
        
         public void hit()
         {
-        Jobj = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/hit/1", ""));
+        Jobj = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/hit/" + hitDir + "", ""));
 
         if(Jobj["hit"] != null && (bool)Jobj["executed"] == true)
             {
@@ -67,7 +71,7 @@ namespace ConsoleApp4{
             {
                 if((bool)Jobj["executed"] == false)
                 {
-                    //You can't move now because of the cooldown
+                    //You can't hit now because of the cooldown
                 }
             }
         }
