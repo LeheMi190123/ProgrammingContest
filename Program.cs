@@ -15,6 +15,7 @@ namespace ConsoleApp4
             actions stats = new actions(key, client);
             actions move = new actions(key, client);
             actions hit = new actions(key, client);
+            actions scan = new actions(key, client);
 
             JObject jobj;
 
@@ -23,11 +24,16 @@ namespace ConsoleApp4
 
             //Calling the stats method
             stats.stats();
+            Console.ReadKey();
             //Calling the move method
-            move.stats();
+            move.move();
+            Console.ReadKey();
             //Calling the hit method
-            hit.stats();
-            
+            hit.hit();
+            Console.ReadKey();
+            //Calling the scan method
+            scan.scan();
+            Console.ReadKey();
             //At the end the game is being closed
             jobj = JObject.Parse(client.UploadString("https://game-dd.countit.at/api/game/" + key + "/close", ""));
         }

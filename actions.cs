@@ -5,63 +5,74 @@ using System.Net;
 namespace ConsoleApp4{
     class actions{
         //variables
-        JObject Jobj; 
+        JObject Jstats, Jmove, Jhit, Jdash, Jspecial, Jteleport, Jradar, Jscan; 
         string Key;
         int hitDir;
         WebClient Client;
+        Random myObject;
+        int moveDir;
         //Konstruktor für key und client
         public actions(string key, WebClient client){
             this.Key = key;
             this.Client = client;
+            this.myObject = new Random();
+            this.moveDir = myObject.Next(0,3);
         }
 
         //Stats Method
        
-        public void stats(){ 
-
-        Jobj = JObject.Parse(Client.DownloadString("https://game-dd.countit.at/api/player/" + Key + "/stats"));
-        
-        Console.Write(Jobj);
+        public void stats()
+        { 
+        Jstats = JObject.Parse(Client.DownloadString("https://game-dd.countit.at/api/player/" + Key + "/stats"));
         Console.ReadKey();
         }
-
-        //First move method
+        
+        //move method
        
         public void move()
         {
-        Jobj = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/move/", ""));
+        Jmove = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/move/"+ moveDir, ""));
 
-        if(Jobj["move"] != null && (bool)Jobj["executed"] == true)
+        if(Jmove["move"] != null && (bool)Jmove["executed"] == true)
             {
-                if((bool)Jobj["move"] == true)
+                if((bool)Jmove["move"] == true)
                 {
-                    //The avatar moved
+                    Console.WriteLine("The Player moved");
                 }
                 else
                 {
-                    //You can't move in this direction because of the map's border
+                    Console.WriteLine("You cant move across the border!");
                 }
             }
             else
             {
-                if((bool)Jobj["executed"] == false)
+                if((bool)Jmove["executed"] == false)
                 {
-                    //You can't move now because of the cooldown
+                    Console.WriteLine("You need to rest, before you move again");
                 }
             }
-        Console.Write(Jobj);
-        Console.ReadKey();
         }
         
-        //First hit method
+        //scan method
+        
+        public void scan()
+        {
+            Jscan = JObject.Parse(Client.DownloadString("https://game-dd.countit.at/api/player/" + Key + "/scan/"));
+            if(Jscan["hit"] != null && (bool)Jhit["executed"] == true)
+            {
+                Console.Write(Jscan);
+            }
+        }
+
+        //hit method
        
         public void hit()
         {
-        Jobj = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/hit/" + hitDir + "", ""));
+        Jhit = JObject.Parse(Client.UploadString("https://game-dd.countit.at/api/player/" + Key + "/hit/" + hitDir + "", ""));
 
-        if(Jobj["hit"] != null && (bool)Jobj["executed"] == true)
+        if(Jhit["hit"] != null && (bool)Jhit["executed"] == true)
             {
-                if((bool)Jobj["hit"] == true)
+                if((bool)Jhit["hit"] == true)
                 {
                     //The avatar hits
                 }
@@ -69,13 +80,13 @@ namespace ConsoleApp4{
             }
             else
             {
-                if((bool)Jobj["executed"] == false)
+                if((bool)Jhit["executed"] == false)
                 {
                     //You can't hit now because of the cooldown
                 }
             }
         }
 
-        //First scan method
+        
     }
 }
